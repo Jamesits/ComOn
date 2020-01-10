@@ -9,10 +9,10 @@
     <DockPanel Margin="8,8,8,8">
         <StackPanel DockPanel.Dock="Top">
             <Label FontSize="32" FontWeight="Bold">ComOn!</Label>
-            <Label FontStyle="Italic">PuTTY is just a *click* away!</Label>
+            <Label FontStyle="Italic">PuTTY is just a *click* away</Label>
         </StackPanel>
 
-        <Button DockPanel.Dock="Bottom" Height="20" VerticalAlignment="Top" Click="BtnRunPutty_Click" IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=CanLaunch, Mode=OneWay}">Go</Button>
+        <Button DockPanel.Dock="Bottom" Height="20" VerticalAlignment="Top" Click="BtnRunPutty_Click" IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=CanLaunch, Mode=OneWay}">Launch PuTTY!</Button>
 
         <Grid Margin="0,20,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
               d:DataContext="{d:DesignInstance local:ComPortViewModel }">
