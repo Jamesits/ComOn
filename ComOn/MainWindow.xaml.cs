@@ -40,12 +40,13 @@ namespace ComOn
         {
             var openFileDialog = new OpenFileDialog
             {
-                DefaultExt = ".exe",
                 CheckFileExists = true,
                 CheckPathExists = true,
                 DereferenceLinks = true,
                 FileName = "putty.exe",
                 InitialDirectory = @"C:\Program Files\Putty",
+                RestoreDirectory = true,
+                Filter = "PE Executables (*.exe)|*.exe|All files (*.*)|*.*",
             };
             if (openFileDialog.ShowDialog() != true) return;
             PuttyFilePath = openFileDialog.FileName;
