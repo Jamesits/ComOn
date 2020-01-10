@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using Microsoft.Win32;
 
@@ -25,6 +26,9 @@ namespace ComOn
         public char SelectedFlowControlMode { get; set; } = 'N';
         public string PuttyFilePath { get; set; } = Utils.GetFullPath("putty.exe");
         public string PuttyAdditionalArguments { get; set; } = "";
+
+        public bool CanLaunch => !string.IsNullOrEmpty(SelectedComPortName);
+
         public MainWindow()
         {
             InitializeComponent();
@@ -138,6 +142,5 @@ namespace ComOn
             return IntPtr.Zero;
         }
         #endregion
-
     }
 }
