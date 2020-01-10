@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComOn", "ComOn\ComOn.csproj", "{CA81FE96-2FDB-48BD-92F0-CB16F8E28C96}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA81FE96-2FDB-48BD-92F0-CB16F8E28C96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA81FE96-2FDB-48BD-92F0-CB16F8E28C96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA81FE96-2FDB-48BD-92F0-CB16F8E28C96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA81FE96-2FDB-48BD-92F0-CB16F8E28C96}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5FDD1DD0-602F-4080-B420-60A7256E648E}
+	EndGlobalSection
+EndGlobal
