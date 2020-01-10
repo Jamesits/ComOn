@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComOn"
         mc:Ignorable="d"
-        Title="ComOn!" Height="320" Width="480" MinHeight="300" MinWidth="400" Loaded="Window_Loaded">
+        Title="ComOn!" Height="320" Width="480" MinHeight="300" MinWidth="400" Loaded="Window_Loaded" MouseDown="Window_MouseDown">
     <DockPanel Margin="8,8,8,8">
         <StackPanel DockPanel.Dock="Top">
             <Label FontSize="32" FontWeight="Bold">ComOn!</Label>
