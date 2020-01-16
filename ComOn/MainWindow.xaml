@@ -30,6 +30,14 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+            </Grid.Resources>
 
             <Label Grid.Column="0" Grid.Row="0">PuTTY Executable</Label>
             <DockPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4">
@@ -40,7 +48,7 @@
             <Label Grid.Column="0" Grid.Row="1">COM Port</Label>
             <DockPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4">
                 <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Click="BtnRefreshDevices_Click" Width="24">⟳</Button>
-                <ComboBox IsEditable="True" DisplayMemberPath="DisplayName" TextSearch.TextPath="DisplayName" ItemsSource="{Binding Path=ComPorts}" SelectedItem="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=SelectedComPort, Mode=TwoWay}" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=SelectedComPortName, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True"></ComboBox>
+                <ComboBox IsEditable="True" DisplayMemberPath="DisplayName" TextSearch.TextPath="DisplayName" ItemsSource="{Binding Path=ComPorts}" SelectedItem="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=SelectedComPort, Mode=TwoWay}" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=SelectedComPortName, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True"/>
             </DockPanel>
             
             <Label Grid.Column="0" Grid.Row="2">Baud Rate</Label>
