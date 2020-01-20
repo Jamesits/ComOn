@@ -29,7 +29,7 @@ namespace ComOn
         public string PuttyAdditionalArguments { get; set; } = "";
 
         public bool CanLaunch => !(string.IsNullOrWhiteSpace(SelectedComPortName) || string.IsNullOrWhiteSpace(PuttyFilePath));
-        public string VersionString => $"Version {Utils.GetVersionString()}";
+        public string VersionString => Utils.GetVersionString();
 
         public MainWindow()
         {

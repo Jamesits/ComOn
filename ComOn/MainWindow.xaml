@@ -10,9 +10,20 @@
         <DockPanel DockPanel.Dock="Top">
             <Label FontSize="36" FontWeight="Bold" Padding="0,0,20,0" Margin="0,0,20,0" DockPanel.Dock="Left" BorderThickness="0,0,1,0" BorderBrush="Black" VerticalAlignment="Center">ComOn!</Label>
             <StackPanel>
-                <Label Padding="0" FontStyle="Italic">PuTTY is just a *click* away</Label>
-                <Label Padding="0" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=VersionString, Mode=OneTime}"></Label>
-                <TextBlock TextDecorations="Underline" Foreground="Blue" Cursor="Hand" MouseDown="LblGitHubLink_Click">GitHub</TextBlock>
+                <TextBlock>
+                    <TextBlock.Inlines>
+                        <Run>PuTTY is just a</Run>
+                        <Run FontStyle="Italic">click</Run>
+                        <Run>away</Run>
+                    </TextBlock.Inlines>
+                </TextBlock>
+                <TextBlock>
+                    <TextBlock.Inlines>
+                        <Run>Version</Run>
+                        <Run Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=VersionString, Mode=OneTime}"/>
+                    </TextBlock.Inlines>
+                </TextBlock>
+                <TextBlock TextDecorations="Underline" Foreground="Blue" Cursor="Hand" MouseDown="LblGitHubLink_Click">Visit project on GitHub</TextBlock>
             </StackPanel>
         </DockPanel>
 
