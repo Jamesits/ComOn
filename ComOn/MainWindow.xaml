@@ -6,6 +6,21 @@
         xmlns:local="clr-namespace:ComOn"
         mc:Ignorable="d"
         Title="ComOn!" Height="280" Width="540" MinHeight="280" MinWidth="400" Loaded="Window_Loaded" MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <Style x:Key="UpdateConditionalStyle" TargetType="Run">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=HaveUpdate}" Value="true">
+                    <Setter Property="Foreground" Value="Red" />
+                    <Setter Property="TextDecorations" Value="Underline" />
+                    <Setter Property="Cursor" Value="Hand" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=HaveUpdate}" Value="false">
+                    <Setter Property="Foreground" Value="Green" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <DockPanel Margin="6,6,6,6">
         <DockPanel DockPanel.Dock="Top">
             <Label FontSize="36" FontWeight="Bold" Padding="0,0,20,0" Margin="0,0,20,0" DockPanel.Dock="Left" BorderThickness="0,0,1,0" BorderBrush="Black" VerticalAlignment="Center">ComOn!</Label>
@@ -17,20 +32,25 @@
                         <Run>away</Run>
                     </TextBlock.Inlines>
                 </TextBlock>
-                <TextBlock>
+                <TextBlock >
                     <TextBlock.Inlines>
                         <Run>Version</Run>
                         <Run Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=VersionString, Mode=OneTime}"/>
+                        <Run> - </Run>
+                        <Run Style="{DynamicResource UpdateConditionalStyle}" MouseDown="LblDownloadUpdateLink_Click" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=ReleaseCheckerStatus, Mode=OneWay}"/>
                     </TextBlock.Inlines>
                 </TextBlock>
-                <TextBlock TextDecorations="Underline" Foreground="Blue" Cursor="Hand" MouseDown="LblGitHubLink_Click">Visit project on GitHub</TextBlock>
+                <TextBlock>
+                    <TextBlock.Inlines>
+                        <Run TextDecorations="Underline" Foreground="Blue" Cursor="Hand" MouseDown="LblGitHubLink_Click">Visit project on GitHub</Run>
+                    </TextBlock.Inlines>
+                </TextBlock>
             </StackPanel>
         </DockPanel>
 
         <Button DockPanel.Dock="Bottom" Height="20" VerticalAlignment="Top" Click="BtnRunPutty_Click" IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=CanLaunch, Mode=OneWay}">Launch PuTTY</Button>
 
-        <Grid Margin="0,20,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-              d:DataContext="{d:DesignInstance local:ComPortViewModel}">
+        <Grid Margin="0,20,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" d:DataContext="{d:DesignInstance local:ComPortViewModel}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="1*" />

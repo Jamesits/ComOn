@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using Microsoft.Win32;
@@ -24,17 +23,39 @@ namespace ComOn
         public char SelectedParity { get; set; } = 'n';
         public ulong SelectedStopBit { get; set; } = 1;
         public ulong SelectedDataBits { get; set; } = 8;
-        public char SelectedFlowControlMode { get; set; } = 'N';
+        public char SelectedFlowControlMode { get; set; } = 'X';
         public string PuttyFilePath { get; set; } = Utils.GetFullPath("putty.exe");
         public string PuttyAdditionalArguments { get; set; } = "";
 
         public bool CanLaunch => !(string.IsNullOrWhiteSpace(SelectedComPortName) || string.IsNullOrWhiteSpace(PuttyFilePath));
-        public string VersionString => Utils.GetVersionString();
+        public static string VersionString => Utils.GetVersion().ToString();
+        public GitHubReleaseChecker ReleaseChecker { get; } = new GitHubReleaseChecker("Jamesits", "ComOn");
+        public bool HaveUpdate { get; private set; }
+        public Uri UpdateDownloadUri { get; private set; }
+
+        private readonly string[] _updateStatusStrings = new[]
+        {
+            "waiting",
+            "checking updates",
+            "update available",
+            "latest version",
+            "update check failed",
+        };
+
+        public string ReleaseCheckerStatus { get; private set; }
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = ComPortViewModel;
+            ReleaseChecker.UpdateCheckStatusChanged += ReleaseChecker_StateChanged;
+        }
+
+        private void ReleaseChecker_StateChanged(object sender, EventArgs e)
+        {
+            ReleaseCheckerStatus = _updateStatusStrings[(int) ReleaseChecker.UpdateCheckStatus];
+            HaveUpdate = (ReleaseChecker.UpdateCheckStatus == GitHubReleaseChecker.CheckStatus.HaveUpdate);
+            UpdateDownloadUri = ReleaseChecker.UpdatePageLinkUri;
         }
 
         private void BtnSelectPuttyExecutable_Click(object sender, RoutedEventArgs e)
@@ -69,18 +90,13 @@ namespace ComOn
                         Arguments = $"-serial -sercfg {SelectedBaudRate},{SelectedDataBits},{SelectedParity},{SelectedStopBit},{SelectedFlowControlMode} {PuttyAdditionalArguments} {port}",
                     };
 
-                    // .net core only
-                    //newPuttyProcess.StartInfo.ArgumentList.Add("-serial");
-                    //newPuttyProcess.StartInfo.ArgumentList.Add("-sercfg");
-                    //newPuttyProcess.StartInfo.ArgumentList.Add($"{SelectedBaudRate},{SelectedDataBits},{SelectedParity},{SelectedStopBit},{SelectedFlowControlMode}");
-                    //newPuttyProcess.StartInfo.ArgumentList.Add($"{port}");
-
-                    //Debug.Write("Launch arguments: ");
-                    //foreach (var i in newPuttyProcess.StartInfo.ArgumentList)
-                    //{
-                    //    Debug.Write(i + " ");
-                    //}
-                    //Debug.WriteLine("");
+#if (NETCOREAPP)
+                    // .net core specific
+                    newPuttyProcess.StartInfo.ArgumentList.Add("-serial");
+                    newPuttyProcess.StartInfo.ArgumentList.Add("-sercfg");
+                    newPuttyProcess.StartInfo.ArgumentList.Add($"{SelectedBaudRate},{SelectedDataBits},{SelectedParity},{SelectedStopBit},{SelectedFlowControlMode}");
+                    newPuttyProcess.StartInfo.ArgumentList.Add($"{port}");
+#endif
 
                     newPuttyProcess.Start();
                 }
@@ -100,13 +116,15 @@ namespace ComOn
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // set default values for the controls
             if (ComPortViewModel.ComPorts.Count > 0)
             {
                 SelectedComPort = ComPortViewModel.ComPorts.LastOrDefault();
             }
+
+            await ReleaseChecker.RefreshReleaseInfo().ConfigureAwait(false);
         }
 
         #region Hardware change event handling
@@ -156,6 +174,19 @@ namespace ComOn
         {
             Process.Start("https://github.com/Jamesits/ComOn");
             e.Handled = true;
+        }
+
+        private async void LblDownloadUpdateLink_Click(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            if (HaveUpdate && UpdateDownloadUri != null)
+            {
+                Process.Start(UpdateDownloadUri.ToString());
+            }
+            else
+            {
+                await ReleaseChecker.RefreshReleaseInfo().ConfigureAwait(false);
+            }
         }
     }
 }

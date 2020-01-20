@@ -21,9 +21,9 @@ namespace ComOn
             return null;
         }
 
-        public static string GetVersionString()
+        public static Version GetVersion()
         {
-            return typeof(Utils).Assembly.GetName().Version.ToString();
+            return typeof(Utils).Assembly.GetName().Version;
         }
     }
     // https://www.pinvoke.net/default.aspx/Structures.DEV_BROADCAST_DEVICEINTERFACE
