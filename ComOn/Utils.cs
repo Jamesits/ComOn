@@ -20,6 +20,11 @@ namespace ComOn
             }
             return null;
         }
+
+        public static string GetVersionString()
+        {
+            return typeof(Utils).Assembly.GetName().Version.ToString();
+        }
     }
     // https://www.pinvoke.net/default.aspx/Structures.DEV_BROADCAST_DEVICEINTERFACE
     [StructLayout(LayoutKind.Sequential)]

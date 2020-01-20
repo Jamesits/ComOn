@@ -28,7 +28,8 @@ namespace ComOn
         public string PuttyFilePath { get; set; } = Utils.GetFullPath("putty.exe");
         public string PuttyAdditionalArguments { get; set; } = "";
 
-        public bool CanLaunch => !string.IsNullOrEmpty(SelectedComPortName);
+        public bool CanLaunch => !(string.IsNullOrWhiteSpace(SelectedComPortName) || string.IsNullOrWhiteSpace(PuttyFilePath));
+        public string VersionString => $"Version {Utils.GetVersionString()}";
 
         public MainWindow()
         {
@@ -149,6 +150,12 @@ namespace ComOn
         {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
+        }
+
+        private void LblGitHubLink_Click(object sender, MouseButtonEventArgs e)
+        {
+            Process.Start("https://github.com/Jamesits/ComOn");
+            e.Handled = true;
         }
     }
 }
