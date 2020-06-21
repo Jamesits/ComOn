@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Management;
 using System.IO.Ports;
 using System.Linq;
@@ -100,7 +101,7 @@ namespace ComOn
 
                 foreach (var o in mbsList)
                 {
-                    var mo = (ManagementObject)o;
+                    var mo = (ManagementObject) o;
                     newComPorts.Where(x => x.Id == mo["DeviceID"].ToString()).All(x =>
                     {
                         x.DisplayName = mo["Name"].ToString();
@@ -112,6 +113,21 @@ namespace ComOn
             {
                 Debug.WriteLine(ex.Message);
             }
+            finally
+            {
+                mbs.Dispose();
+            }
+
+            foreach (var pipe in Directory.GetFiles(@"\\.\pipe\"))
+            {
+                newComPorts.Add(new ComPort()
+                {
+                    Id = pipe,
+                    DisplayName = pipe,
+
+                });
+            }
+
 
             ComPorts = new ObservableCollection<ComPort>(newComPorts.OrderBy(x => x.Order));
         }
